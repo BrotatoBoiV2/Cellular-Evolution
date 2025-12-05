@@ -5,7 +5,7 @@
                 Description: Simulation of cellular evolution.
                                 File: main.py
                               Date: 2025/12/04
-                          Version: 0.1-2025.12.04
+                          Version: 0.3-2025.12.05
 
 ===============================================================================
 
@@ -30,6 +30,8 @@ class Main:
     def execute(self):
         while self._isRunning:
             self.world.handle_events()
+            self.world.render()
+            self.world.update()
 
 
 if __name__ == '__main__':
