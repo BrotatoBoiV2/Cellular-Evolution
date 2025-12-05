@@ -3,7 +3,7 @@
                 Programmer: Aaron "A.J." Cassell. (@BrotatoBoi)
                       Program Name: Cellular-Evolution
                 Description: Simulation of cellular evolution.
-                                File: main.py
+                                File: world.py
                               Date: 2025/12/04
                           Version: 0.1-2025.12.04
 
@@ -19,20 +19,15 @@
 """
 
 
-import world
+import pygame as pg
 
 
-class Main:
+class World:
     def __init__(self):
-        self.world = world.World()
-        self._isRunning = True
+        self.size = (800, 600)
+        self.screen = pg.display.set_mode(self.size)
 
-    def execute(self):
-        while self._isRunning:
-            self.world.handle_events()
-
-
-if __name__ == '__main__':
-    main = Main()
-
-    main.execute()
+    def handle_events(self):
+        for event in pg.event.get():
+            if event.type == pg.QUIT or event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
+                pg.quit()
