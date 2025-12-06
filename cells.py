@@ -36,11 +36,12 @@ class Cell:
         self.max_force = 0.01
         self.pulse_speed = 0.05
         self.pulse_offset = random.random() * 10
+        self.energy = 100.0
 
     def render(self):
         pg.draw.ellipse(self.screen, self.color, (self.pos.x, self.pos.y, self.radius*2, self.radius*2))
 
-    def move(self):
+    def update(self):
         random_force = pg.math.Vector2(random.uniform(-1, 1), random.uniform(-1, 1))
         if random_force.length() > 0:
             random_force.scale_to_length(self.max_force)
@@ -69,3 +70,5 @@ class Cell:
         if self.pos.x < -self.radius: self.pos.x = self.screen.get_width() + self.radius
         if self.pos.y > self.screen.get_height() + self.radius: self.pos.y = -self.radius
         if self.pos.y < -self.radius: self.pos.y = self.screen.get_height() + self.radius
+
+        self.energy -= 0.01

@@ -19,7 +19,8 @@
 """
 
 import cells
-
+import random
+import time
 import pygame as pg
 
 
@@ -28,6 +29,11 @@ class World:
         self.size = (800, 600)
         self.screen = pg.display.set_mode(self.size)
         self.cells = []
+
+        # for _ in range(3):
+        #     pos = pg.math.Vector2(random.randint(0, self.size[0]), random.randint(0, self.size[1]))
+
+        #     self.cells.append(cells.Cell(pos.x, pos.y, self.screen))
 
     def handle_events(self):
         for event in pg.event.get():
@@ -48,7 +54,16 @@ class World:
 
 
     def update(self):
+        new_cells = []
         for cell in self.cells:
-            cell.move()
+            cell.update()
+
+            if cell.energy <= 0.0:
+                continue
+                
+            new_cells.append(cell)
+
+        self.cells = new_cells
+
 
         pg.display.update()
