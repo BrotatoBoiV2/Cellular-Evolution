@@ -5,7 +5,7 @@
                 Description: Simulation of cellular evolution.
                                 File: world.py
                               Date: 2025/12/04
-                          Version: 0.3-2025.12.05
+                          Version: 0.4-2025.12.06
 
 ===============================================================================
 
@@ -19,6 +19,7 @@
 """
 
 import cells
+import food
 import random
 import time
 import pygame as pg
@@ -29,6 +30,10 @@ class World:
         self.size = (800, 600)
         self.screen = pg.display.set_mode(self.size)
         self.cells = []
+        self.food = []
+        self.spawn_interval = 3.0
+        self.time_passed = 0.0
+        self.last_time = 0.0
 
         # for _ in range(3):
         #     pos = pg.math.Vector2(random.randint(0, self.size[0]), random.randint(0, self.size[1]))
@@ -52,18 +57,29 @@ class World:
         for cell in self.cells:
             cell.render()
 
+        for food in self.food:
+            food.render()
+
 
     def update(self):
         new_cells = []
+        
         for cell in self.cells:
-            cell.update()
+            cell.update(self)
 
             if cell.energy <= 0.0:
                 continue
                 
             new_cells.append(cell)
 
+
         self.cells = new_cells
+
+        dt = 0.5 / 240.0
+        self.last_time += dt
+        if self.last_time >= self.spawn_interval:
+            self.food.append(food.Food(self.screen))
+            self.last_time -= self.spawn_interval
 
 
         pg.display.update()

@@ -3,7 +3,7 @@
                 Programmer: Aaron "A.J." Cassell. (@BrotatoBoi)
                       Program Name: Cellular-Evolution
                 Description: Simulation of cellular evolution.
-                                File: main.py
+                                File: food.py
                               Date: 2025/12/04
                           Version: 0.4-2025.12.06
 
@@ -18,23 +18,13 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 """
 
+import pygame as pg
+import random
 
-import world
+class Food:
+    def __init__(self, screen):
+        self.pos = pg.math.Vector2(random.randint(0, screen.get_width()), random.randint(0, screen.get_height()))
+        self.screen = screen
 
-
-class Main:
-    def __init__(self):
-        self.world = world.World()
-        self._isRunning = True
-
-    def execute(self):
-        while self._isRunning:
-            self.world.handle_events()
-            self.world.render()
-            self.world.update()
-
-
-if __name__ == '__main__':
-    main = Main()
-
-    main.execute()
+    def render(self):
+        pg.draw.ellipse(self.screen, (0, 255, 0), (self.pos.x, self.pos.y, 5, 5))
