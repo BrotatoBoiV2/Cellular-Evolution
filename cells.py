@@ -34,8 +34,6 @@ class Cell:
         self.acc = pg.math.Vector2(0, 0)
         self.max_speed = 0.5
         self.max_force = 0.01
-        self.pulse_speed = 0.05
-        self.pulse_offset = random.random() * 10
         self.energy = energy
 
     def render(self):

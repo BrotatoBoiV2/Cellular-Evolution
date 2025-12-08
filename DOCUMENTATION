@@ -30,3 +30,20 @@
     20:03
         A code refactor has been done, and more functions have been created
         so the code is a little more modulated and easier to maintain.
+
+
+# TODO
+Make sure that `pg.quit()` is called cleanly with `self._isRunning = False`
+Make time logic actually include realtime and delta time (`dt = now - last`)
+Change `r2 = self.radius*self.radius` into `combined_r = self.radius + (food.radius/2)`
+Use perlin noise for more natural movement
+Minus radius from the position to make it centered
+Give a small random offset on birth for a more natural split
+Fleeing could be more softer and include a decay for being farther from the mouse
+Fleeing can also increase energy usage
+Ensure FPS is being applied `self.clock = pg.time.Clock() ; self.clock.tick(60)`
+Imports can be cleaned up
+Clean up how food is eaten, world should handle it not the cells itself
+Grid Partitioning or Quadtress to help food discovery
+Move magic numbers like decay, split threshold and food energy into variables for better evolution
+Initialize PyGame
