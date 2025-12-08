@@ -25,3 +25,8 @@
         There are now food objects and they recharge the cells energy.
         Also, when the energy of a cell reaches 20% more energy than 
         the base amount of energy, the cell splits into another cell.
+
+
+
+# TODO
+* An entire refactor of the code is needed!
