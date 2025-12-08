@@ -26,7 +26,7 @@
         Also, when the energy of a cell reaches 20% more energy than 
         the base amount of energy, the cell splits into another cell.
 
-
-
-# TODO
-* An entire refactor of the code is needed!
+2025-12-08
+    20:03
+        A code refactor has been done, and more functions have been created
+        so the code is a little more modulated and easier to maintain.

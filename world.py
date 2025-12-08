@@ -32,13 +32,7 @@ class World:
         self.cells = []
         self.food = []
         self.spawn_interval = 3.0
-        self.time_passed = 0.0
         self.last_time = 0.0
-
-        # for _ in range(3):
-        #     pos = pg.math.Vector2(random.randint(0, self.size[0]), random.randint(0, self.size[1]))
-
-        #     self.cells.append(cells.Cell(pos.x, pos.y, self.screen))
 
     def handle_events(self):
         for event in pg.event.get():
@@ -47,7 +41,6 @@ class World:
 
             if event.type == pg.MOUSEBUTTONDOWN:
                 pos = pg.mouse.get_pos()
-                print("Creating cell")
                 self.cells.append(cells.Cell(pos[0], pos[1], self.screen))
                 
 
@@ -60,6 +53,14 @@ class World:
         for food in self.food:
             food.render()
 
+
+    def spawn_food(self):
+        dt = 0.5 / 240.0
+        self.last_time += dt
+
+        if self.last_time >= self.spawn_interval:
+            self.food.append(food.Food(self.screen))
+            self.last_time -= self.spawn_interval
 
     def update(self):
         new_cells = []
@@ -75,11 +76,6 @@ class World:
 
         self.cells = new_cells
 
-        dt = 0.5 / 240.0
-        self.last_time += dt
-        if self.last_time >= self.spawn_interval:
-            self.food.append(food.Food(self.screen))
-            self.last_time -= self.spawn_interval
-
+        self.spawn_food()
 
         pg.display.update()

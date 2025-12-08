@@ -41,13 +41,30 @@ class Cell:
     def render(self):
         pg.draw.ellipse(self.screen, self.color, (self.pos.x, self.pos.y, self.radius*2, self.radius*2))
 
-    def update(self, world):
-        random_force = pg.math.Vector2(random.uniform(-1, 1), random.uniform(-1, 1))
-        if random_force.length() > 0:
-            random_force.scale_to_length(self.max_force)
+    def check_food(self, world):
+        new_foods = []
 
-        self.acc = random_force
+        for food in world.food:
+            dx = food.pos.x - self.pos.x
+            dy = food.pos.y - self.pos.y
+            d2 = (dx*dx) + (dy*dy)
+            r2 = self.radius * self.radius
 
+            if d2 <= r2:
+                self.energy += 25
+                continue
+                
+            new_foods.append(food)
+
+        world.food = new_foods
+
+    def check_split(self, world):
+        if self.energy >= 120.00:
+            energy = self.energy//2
+            world.cells.append(Cell(self.pos.x, self.pos.y, self.screen, energy))
+            self.energy = energy
+
+    def check_predators(self):
         mouse_pos = pg.math.Vector2(pg.mouse.get_pos())
         flee_vector = self.pos - mouse_pos
         distance_to_mouse = flee_vector.length()
@@ -59,11 +76,7 @@ class Cell:
                 flee_vector *= 0.5
                 self.acc += flee_vector
 
-        self.vel += self.acc
-
-        if self.vel.length() > self.max_speed:
-            self.vel.scale_to_length(self.max_speed)
-
+    def move_cell(self):
         self.pos += self.vel
 
         if self.pos.x > self.screen.get_width() + self.radius: self.pos.x = -self.radius
@@ -71,25 +84,22 @@ class Cell:
         if self.pos.y > self.screen.get_height() + self.radius: self.pos.y = -self.radius
         if self.pos.y < -self.radius: self.pos.y = self.screen.get_height() + self.radius
 
-        new_foods = []
-        for food in world.food:
-            dx = food.pos.x - self.pos.x
-            dy = food.pos.y - self.pos.y
-            d2 = (dx*dx) + (dy*dy)
-            r2 = self.radius * self.radius
+    def update(self, world):
+        random_force = pg.math.Vector2(random.uniform(-1, 1), random.uniform(-1, 1))
+        if random_force.length() > 0:
+            random_force.scale_to_length(self.max_force)
 
-            if d2 <= r2:
-                self.energy += 25
-                print("GOT ENERGY")
-                continue
-                
-            new_foods.append(food)
+        self.acc = random_force
 
-        if self.energy >= 120.00:
-            energy = self.energy//2
-            world.cells.append(Cell(self.pos.x, self.pos.y, self.screen, energy))
-            self.energy = energy
+        self.check_predators()
 
-        world.food = new_foods
-        print(self.energy)
+        self.vel += self.acc
+
+        if self.vel.length() > self.max_speed:
+            self.vel.scale_to_length(self.max_speed)
+
+        self.move_cell()
+        self.check_food(world)
+        self.check_split(world)
+
         self.energy -= 0.01
