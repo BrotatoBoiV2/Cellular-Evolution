@@ -30,10 +30,10 @@ class Cell:
         self.color = (255, 0, 0)
         self.radius = 10
         self.pos = pg.math.Vector2(x, y)
-        self.vel = pg.math.Vector2(random.uniform(-1, 1), random.uniform(-1, 1))
+        self.vel = pg.math.Vector2(random.uniform(-10, 10), random.uniform(-10, 10))
         self.acc = pg.math.Vector2(0, 0)
-        self.max_speed = 0.5
-        self.max_force = 0.01
+        self.max_speed = 180
+        self.max_force = 600
         self.energy = energy
 
     def render(self):
@@ -71,18 +71,18 @@ class Cell:
             if distance_to_mouse > 0:
                 flee_vector.normalize_ip()
 
-                flee_vector *= 0.5
+                flee_vector *= 500
                 self.acc += flee_vector
 
-    def move_cell(self):
-        self.pos += self.vel
+    def move_cell(self, dt):
+        self.pos += self.vel * dt
 
         if self.pos.x > self.screen.get_width() + self.radius: self.pos.x = -self.radius
         if self.pos.x < -self.radius: self.pos.x = self.screen.get_width() + self.radius
         if self.pos.y > self.screen.get_height() + self.radius: self.pos.y = -self.radius
         if self.pos.y < -self.radius: self.pos.y = self.screen.get_height() + self.radius
 
-    def update(self, world):
+    def update(self, world, dt):
         random_force = pg.math.Vector2(random.uniform(-1, 1), random.uniform(-1, 1))
         if random_force.length() > 0:
             random_force.scale_to_length(self.max_force)
@@ -91,13 +91,13 @@ class Cell:
 
         self.check_predators()
 
-        self.vel += self.acc
+        self.vel += self.acc * dt
 
         if self.vel.length() > self.max_speed:
             self.vel.scale_to_length(self.max_speed)
 
-        self.move_cell()
+        self.move_cell(dt)
         self.check_food(world)
         self.check_split(world)
 
-        self.energy -= 0.01
+        self.energy -= 0.1

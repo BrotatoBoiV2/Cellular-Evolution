@@ -33,6 +33,8 @@ class World:
         self.food = []
         self.spawn_interval = 3.0
         self.last_time = 0.0
+        self.clock = pg.time.Clock()
+        self.fps = 60
         self._isRunning = True
 
     def handle_events(self):
@@ -56,19 +58,19 @@ class World:
         for food in self.food:
             food.render()
 
-    def spawn_food(self):
-        dt = 0.5 / 240.0
+    def spawn_food(self, dt):
         self.last_time += dt
 
-        if self.last_time >= self.spawn_interval:
+        while self.last_time >= self.spawn_interval:
             self.food.append(food.Food(self.screen))
             self.last_time -= self.spawn_interval
 
-    def update(self):
+    def update(self, ms):
         new_cells = []
+        dt = ms / 1000.00
         
         for cell in self.cells:
-            cell.update(self)
+            cell.update(self, dt)
 
             if cell.energy <= 0.0:
                 continue
@@ -76,16 +78,19 @@ class World:
             new_cells.append(cell)
 
         self.cells = new_cells
+        self.spawn_food(dt)
 
-        self.spawn_food()
-
-        pg.display.update()
+        
 
     def execute(self):
         while self._isRunning:
-            self.render()
-            self.update()
             self.handle_events()
+            ms = self.clock.tick(self.fps)
+            self.update(ms)
+            self.render()
+
+            pg.display.update()
+            
 
         pg.quit()
 
