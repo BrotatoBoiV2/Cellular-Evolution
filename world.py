@@ -27,6 +27,8 @@ import pygame as pg
 
 class World:
     def __init__(self):
+        pg.init()
+        
         self.size = (800, 600)
         self.screen = pg.display.set_mode(self.size)
         self.cells = []
