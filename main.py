@@ -5,7 +5,7 @@
                 Description: Simulation of cellular evolution.
                                 File: main.py
                               Date: 2025/12/04
-                          Version: 0.4-2025.12.06
+                          Version: 0.6-2025.12.09
 
 ===============================================================================
 
