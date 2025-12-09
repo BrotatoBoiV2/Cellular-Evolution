@@ -46,9 +46,9 @@ class Cell:
             dx = food.pos.x - self.pos.x
             dy = food.pos.y - self.pos.y
             d2 = (dx*dx) + (dy*dy)
-            r2 = self.radius * self.radius
+            combined_r = self.radius * (food.radius/2)
 
-            if d2 <= r2:
+            if d2 <= combined_r:
                 self.energy += 25
                 continue
                 

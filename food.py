@@ -24,7 +24,8 @@ import random
 class Food:
     def __init__(self, screen):
         self.pos = pg.math.Vector2(random.randint(0, screen.get_width()), random.randint(0, screen.get_height()))
+        self.radius = 2.5
         self.screen = screen
 
     def render(self):
-        pg.draw.ellipse(self.screen, (0, 255, 0), (self.pos.x, self.pos.y, 5, 5))
+        pg.draw.ellipse(self.screen, (0, 255, 0), (self.pos.x, self.pos.y, self.radius*2, self.radius*2))

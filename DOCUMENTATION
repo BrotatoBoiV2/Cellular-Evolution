@@ -35,10 +35,12 @@
     17:17
         Now the program cleanly exits and stops all processes.
 
+    18:06
+        Framerate and DeltaTime has been introduced and movement is now as intended.
+
 
 # TODO
-Make time logic actually include realtime and delta time (`dt = now - last`)
-Change `r2 = self.radius*self.radius` into `combined_r = self.radius + (food.radius/2)`
+Noticed food does not always get eaten
 Use perlin noise for more natural movement
 Minus radius from the position to make it centered
 Give a small random offset on birth for a more natural split
