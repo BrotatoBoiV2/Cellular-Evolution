@@ -28,7 +28,7 @@ import pygame as pg
 class World:
     def __init__(self):
         pg.init()
-        
+
         self.size = (800, 600)
         self.screen = pg.display.set_mode(self.size)
         self.cells = []
@@ -60,6 +60,25 @@ class World:
         for food in self.food:
             food.render()
 
+    def check_food(self, cell):
+        new_foods = []
+
+        for food in self.food:
+            dx = food.pos.x - cell.pos.x
+            dy = food.pos.y - cell.pos.y
+            d2 = (dx*dx) + (dy*dy)
+
+            radii_sum = cell.radius + food.radius
+            combined_r = radii_sum*radii_sum
+
+            if d2 <= combined_r:
+                cell.energy += 25
+                continue
+                
+            new_foods.append(food)
+
+        self.food = new_foods
+
     def spawn_food(self, dt):
         self.last_time += dt
 
@@ -73,7 +92,7 @@ class World:
         
         for cell in self.cells:
             cell.update(self, dt)
-
+            self.check_food(cell)
             if cell.energy <= 0.0:
                 continue
                 

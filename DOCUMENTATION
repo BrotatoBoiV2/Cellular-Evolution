@@ -38,16 +38,17 @@
     18:06
         Framerate and DeltaTime has been introduced and movement is now as intended.
 
+    18:32
+        Food consumption is now more reliable.
+
+    18:52
+        Perlin Noise has been implemented for a much smoother and more natural cellular movement.
+
 
 # TODO
-Noticed food does not always get eaten
-Use perlin noise for more natural movement
-Minus radius from the position to make it centered
-Give a small random offset on birth for a more natural split
+Give a small random offset on birth for a more natural split (?)
 Fleeing could be more softer and include a decay for being farther from the mouse
 Fleeing can also increase energy usage
-Ensure FPS is being applied `self.clock = pg.time.Clock() ; self.clock.tick(60)`
 Imports can be cleaned up
-Clean up how food is eaten, world should handle it not the cells itself
 Grid Partitioning or Quadtrees to help food discovery
 Move magic numbers like decay, split threshold and food energy into variables for better evolution

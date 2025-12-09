@@ -20,6 +20,7 @@
 
 
 import random
+import noise
 
 import pygame as pg
 
@@ -35,26 +36,11 @@ class Cell:
         self.max_speed = 180
         self.max_force = 600
         self.energy = energy
+        self.noise_time_x = random.uniform(0, 1000)
+        self.noise_time_y = random.uniform(0, 1000)
 
     def render(self):
-        pg.draw.ellipse(self.screen, self.color, (self.pos.x, self.pos.y, self.radius*2, self.radius*2))
-
-    def check_food(self, world):
-        new_foods = []
-
-        for food in world.food:
-            dx = food.pos.x - self.pos.x
-            dy = food.pos.y - self.pos.y
-            d2 = (dx*dx) + (dy*dy)
-            combined_r = self.radius * (food.radius/2)
-
-            if d2 <= combined_r:
-                self.energy += 25
-                continue
-                
-            new_foods.append(food)
-
-        world.food = new_foods
+        pg.draw.ellipse(self.screen, self.color, (self.pos.x-self.radius, self.pos.y-self.radius, self.radius*2, self.radius*2))
 
     def check_split(self, world):
         if self.energy >= 120.00:
@@ -83,11 +69,19 @@ class Cell:
         if self.pos.y < -self.radius: self.pos.y = self.screen.get_height() + self.radius
 
     def update(self, world, dt):
-        random_force = pg.math.Vector2(random.uniform(-1, 1), random.uniform(-1, 1))
+        self.acc = pg.math.Vector2(0, 0)
+        noise_speed = 0.5
+        self.noise_time_x += noise_speed * dt
+        self.noise_time_y += noise_speed * dt
+
+        noise_x = noise.pnoise1(self.noise_time_x)
+        noise_y = noise.pnoise1(self.noise_time_y)
+
+        random_force = pg.math.Vector2(noise_x, noise_y)
         if random_force.length() > 0:
             random_force.scale_to_length(self.max_force)
 
-        self.acc = random_force
+        self.acc += random_force
 
         self.check_predators()
 
@@ -97,7 +91,6 @@ class Cell:
             self.vel.scale_to_length(self.max_speed)
 
         self.move_cell(dt)
-        self.check_food(world)
         self.check_split(world)
 
         self.energy -= 0.1
