@@ -49,6 +49,5 @@ Fleeing can also increase energy usage
 Ensure FPS is being applied `self.clock = pg.time.Clock() ; self.clock.tick(60)`
 Imports can be cleaned up
 Clean up how food is eaten, world should handle it not the cells itself
-Grid Partitioning or Quadtress to help food discovery
+Grid Partitioning or Quadtrees to help food discovery
 Move magic numbers like decay, split threshold and food energy into variables for better evolution
-Initialize PyGame
