@@ -33,17 +33,20 @@ class World:
         self.food = []
         self.spawn_interval = 3.0
         self.last_time = 0.0
+        self._isRunning = True
 
     def handle_events(self):
         for event in pg.event.get():
-            if event.type == pg.QUIT or event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
-                pg.quit()
+            if event.type == pg.QUIT:
+                self._isRunning = False
+            elif event.type == pg.KEYDOWN:
+                if event.key == pg.K_ESCAPE:
+                    self._isRunning = False
 
             if event.type == pg.MOUSEBUTTONDOWN:
                 pos = pg.mouse.get_pos()
                 self.cells.append(cells.Cell(pos[0], pos[1], self.screen))
                 
-
     def render(self):
         self.screen.fill((0, 0, 0))
 
@@ -52,7 +55,6 @@ class World:
 
         for food in self.food:
             food.render()
-
 
     def spawn_food(self):
         dt = 0.5 / 240.0
@@ -73,9 +75,18 @@ class World:
                 
             new_cells.append(cell)
 
-
         self.cells = new_cells
 
         self.spawn_food()
 
         pg.display.update()
+
+    def execute(self):
+        while self._isRunning:
+            self.render()
+            self.update()
+            self.handle_events()
+
+        pg.quit()
+
+        

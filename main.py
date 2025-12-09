@@ -25,16 +25,9 @@ import world
 class Main:
     def __init__(self):
         self.world = world.World()
-        self._isRunning = True
-
-    def execute(self):
-        while self._isRunning:
-            self.world.handle_events()
-            self.world.render()
-            self.world.update()
-
+        
 
 if __name__ == '__main__':
     main = Main()
 
-    main.execute()
+    main.world.execute()

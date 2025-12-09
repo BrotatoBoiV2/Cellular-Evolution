@@ -31,9 +31,12 @@
         A code refactor has been done, and more functions have been created
         so the code is a little more modulated and easier to maintain.
 
+2025-12-09:
+    17:17
+        Now the program cleanly exits and stops all processes.
+
 
 # TODO
-Make sure that `pg.quit()` is called cleanly with `self._isRunning = False`
 Make time logic actually include realtime and delta time (`dt = now - last`)
 Change `r2 = self.radius*self.radius` into `combined_r = self.radius + (food.radius/2)`
 Use perlin noise for more natural movement
