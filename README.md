@@ -9,7 +9,9 @@ cd Cellular-Evolution
 python -m venv ./cells
 ```
 **2. Activate the Environment**
+
 Choose the activation command based on your Operating System:
+
 **Linux/MacOS:**
 ```bash
 source ./cells/bin/activate
