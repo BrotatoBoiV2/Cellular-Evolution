@@ -27,17 +27,17 @@ import pygame as pg
 
 
 class World:
-    def __init__(self):
+    def __init__(self, size=(800, 600)):
         pg.init()
 
-        self.size = (800, 600)
-        self.screen = pg.display.set_mode(self.size)
+        self.size = size
+        self.screen = pg.display.set_mode(size)
+        self.clock = pg.time.Clock()
         self.cells = []
         self.food = []
+        self.fps = 60
         self.spawn_interval = 3.0
         self.last_time = 0.0
-        self.clock = pg.time.Clock()
-        self.fps = 60
         self._isRunning = True
 
     def handle_events(self):
@@ -49,8 +49,8 @@ class World:
                     self._isRunning = False
 
             if event.type == pg.MOUSEBUTTONDOWN:
-                pos = pg.mouse.get_pos()
-                self.cells.append(cells.Cell(pos[0], pos[1], self.screen))
+                pos = pg.math.Vector2(pg.mouse.get_pos())
+                self.cells.append(cells.Cell(pos.x, pos.y, self.screen))
                 
     def render(self):
         self.screen.fill((0, 0, 0))
