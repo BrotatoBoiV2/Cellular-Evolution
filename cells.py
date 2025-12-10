@@ -31,7 +31,8 @@ class Cell:
         self.color = (255, 0, 0)
         self.radius = 10
         self.pos = pg.math.Vector2(x, y)
-        self.vel = pg.math.Vector2(random.uniform(-10, 10), random.uniform(-10, 10))
+        self.vel = pg.math.Vector2(random.uniform(-10, 10),
+                                    random.uniform(-10, 10))
         self.acc = pg.math.Vector2(0, 0)
         self.max_speed = 180
         self.max_force = 600
@@ -40,12 +41,16 @@ class Cell:
         self.noise_time_y = random.uniform(0, 1000)
 
     def render(self):
-        pg.draw.ellipse(self.screen, self.color, (self.pos.x-self.radius, self.pos.y-self.radius, self.radius*2, self.radius*2))
+        pg.draw.ellipse(self.screen, 
+                        self.color, 
+                        (self.pos.x-self.radius, self.pos.y-self.radius,
+                            self.radius*2, self.radius*2))
 
     def check_split(self, world):
         if self.energy >= 120.00:
             energy = self.energy//2
-            world.cells.append(Cell(self.pos.x, self.pos.y, self.screen, energy))
+            world.cells.append(Cell(self.pos.x, self.pos.y, 
+                                    self.screen, energy))
             self.energy = energy
 
     def check_predators(self):
@@ -63,10 +68,14 @@ class Cell:
     def move_cell(self, dt):
         self.pos += self.vel * dt
 
-        if self.pos.x > self.screen.get_width() + self.radius: self.pos.x = -self.radius
-        if self.pos.x < -self.radius: self.pos.x = self.screen.get_width() + self.radius
-        if self.pos.y > self.screen.get_height() + self.radius: self.pos.y = -self.radius
-        if self.pos.y < -self.radius: self.pos.y = self.screen.get_height() + self.radius
+        if self.pos.x > self.screen.get_width() + self.radius:
+            self.pos.x = -self.radius
+        if self.pos.x < -self.radius:
+            self.pos.x = self.screen.get_width() + self.radius
+        if self.pos.y > self.screen.get_height() + self.radius:
+            self.pos.y = -self.radius
+        if self.pos.y < -self.radius:
+            self.pos.y = self.screen.get_height() + self.radius
 
     def update(self, world, dt):
         self.acc = pg.math.Vector2(0, 0)

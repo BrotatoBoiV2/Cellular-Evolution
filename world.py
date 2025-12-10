@@ -18,6 +18,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 """
 
+
 import cells
 import food
 import random
@@ -101,8 +102,6 @@ class World:
         self.cells = new_cells
         self.spawn_food(dt)
 
-        
-
     def execute(self):
         while self._isRunning:
             self.handle_events()
@@ -114,5 +113,3 @@ class World:
             
 
         pg.quit()
-
-        
